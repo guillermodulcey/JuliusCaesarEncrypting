@@ -3,17 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EncryptionComponent } from './encryption/encryption.component';
+
+import { EncryptionModule } from './encryption/encryption.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EncryptionComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, EncryptionModule],
   providers: [],
   bootstrap: [AppComponent]
 })
