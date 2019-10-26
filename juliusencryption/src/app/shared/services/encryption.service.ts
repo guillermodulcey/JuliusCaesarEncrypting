@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class EncryptionService {
 
   expresionRegular = new RegExp('[a-z]');
-  caracteres = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','x','y','z'];
+  caracteres = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   frases: string[] = [];
   puntaje: number[] = [];
  
@@ -86,6 +86,7 @@ export class EncryptionService {
       
     }
     return Object.keys(JSON.parse(xhr.responseText)["corrections"]).length;
+    
   }
 
   //Convertir la frase a una peticion GET http

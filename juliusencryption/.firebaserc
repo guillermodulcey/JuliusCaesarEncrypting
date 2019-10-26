@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "juliusencryption": {
+      "hosting": {
+        "juliusencryption": [
+          "juliusencryption"
+        ]
+      }
+    }
+  }
+}
