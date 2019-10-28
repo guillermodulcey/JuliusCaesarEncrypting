@@ -22,10 +22,13 @@
         <tbody>
           <div>
             <td> 
+              Valor de k: {{ encryptionService.arregloK[indice] }}
+            </td>
+            <td> 
               Frase: {{ solucion }}
             </td>
             <td> 
-              Palabras en inglés: {{ solucion.split(" ").length - encryptionService.puntaje[indice] }}
+              Palabras en inglés: {{ encryptionService.palabras - encryptionService.puntaje[indice] }}
             </td>
           </div>
       </tbody>

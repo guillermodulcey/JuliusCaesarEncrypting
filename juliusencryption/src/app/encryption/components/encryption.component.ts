@@ -17,7 +17,7 @@ export class EncryptionComponent implements OnInit {
   }
 
   obtenerFrases(){
-    this.encryptionService.obtenerResultados(this.frase);
+    this.encryptionService.obtenerResultados(this.frase.toLowerCase());
   }
 
 }

@@ -9,6 +9,8 @@ export class EncryptionService {
   caracteres = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   frases: string[] = [];
   puntaje: number[] = [];
+  arregloK: number[] = [];
+  palabras: number;
  
   //constructor
   constructor() { }
@@ -59,6 +61,7 @@ export class EncryptionService {
     let soluciones: string[] = []
     for (let index = 0; index < this.caracteres.length; index++) {
       soluciones.push(this.cambiarFrase(frase,index));
+      this.arregloK.push(index);
     }
     return soluciones;
   }
@@ -67,14 +70,14 @@ export class EncryptionService {
   palabrasIngles(frase: string): number{
     var data = null;
     var xhr = new XMLHttpRequest();
-
+    
     let peticion = this.convertirFraseAPeticion(frase);
-
+    
     xhr.withCredentials = true;
 
     xhr.addEventListener("readystatechange", function () {
       if (this.readyState === this.DONE) {
-         console.log(Object.keys(JSON.parse(this.responseText)["corrections"]).length);
+         //console.log(Object.keys(JSON.parse(this.responseText)["corrections"]));
       }
     });
 
@@ -86,12 +89,24 @@ export class EncryptionService {
       
     }
     return Object.keys(JSON.parse(xhr.responseText)["corrections"]).length;
-    
   }
 
   //Convertir la frase a una peticion GET http
   convertirFraseAPeticion(frase: string): string{
-    return frase.replace(/ /g,"%20");
+    let auxiliarFrase = frase.slice(0);
+    auxiliarFrase = this.convertirCaracteresEspeciales(auxiliarFrase);
+    return auxiliarFrase.replace(/ /g,"%20");
+  }
+
+  convertirCaracteresEspeciales(frase: string): string{
+    let auxiliarFrase = frase.slice(0);
+    for (let index = 0; index < auxiliarFrase.length; index++) {
+      if (!this.caracterCambiable(auxiliarFrase[index])) {
+        auxiliarFrase = auxiliarFrase.replace(auxiliarFrase[index]," ");
+      }
+    }
+    auxiliarFrase = auxiliarFrase.replace(/\s+/g," ");
+    return auxiliarFrase;
   }
 
   //Obtener puntaje de las frases
@@ -119,10 +134,12 @@ export class EncryptionService {
        i++;
        this.intercambiarElemento(arreglo,i,j);
        this.intercambiarElemento(this.frases,i,j);
+       this.intercambiarElemento(this.arregloK,i,j);
      }
    }
    this.intercambiarElemento(arreglo,i+1,derecha);
    this.intercambiarElemento(this.frases,i+1,derecha);
+   this.intercambiarElemento(this.arregloK,i+1,derecha);
 
    return i+1;
   }
@@ -146,6 +163,7 @@ export class EncryptionService {
   //Obtener los resultados de procesar la frase
   obtenerResultados(frase: string){
     this.frases = this.iterarSoluciones(frase);
+    this.palabras = this.convertirCaracteresEspeciales(frase).split(" ").length;
     this.puntaje = this.obtenerPuntajes(this.frases);
     this.ordenarPorPuntajes(); 
   }
